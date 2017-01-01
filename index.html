@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="assets/css/easyui.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+    </head>
+    <body class="align">
+        <div id="t_options" class="easyui-tabs">
+            <!--Components Combobox-->
+            <div title="Combobox en Cascada">
+                <div id="container-combobox" class="align">
+                    <select id="cb_country" class="easyui-combobox">
+                    </select>
+                    <select id="cb_city" class="easyui-combobox">
+                    </select>
+                </div>
+            </div>
+            <!--Component DataGrid-->
+            <div title="Datagrid listado de Productos">
+                <div class="align">
+                    <div class="display-block">
+                        <table id="dg_product" class="easyui-datagrid"> 
+                        </table>    
+                        <div class="container_button">
+                            <a href="#" id="btn_open_product" class="easyui-linkbutton">Mostrar Productos Seleccionados</a>
+                        </div>
+                        <div id="d_product"></div>
+                    </div>
+                </div>
+            </div>
+            <!--Component Form-->
+            <div title="Validación de Formularios">
+              <div class="align">
+                    <div id="p_register" class="easyui-panel padding-panel">
+                        <form id="f_user" method="POST">
+                            <div class="padding-top-bottom">
+                                <input id="txt_name" class="easyui-textbox easyui-validatebox" autocomplete="false" type="text" prompt="Nombre Completo">
+                            </div>
+                            <div class="padding-top-bottom">
+                                <input id="txt_email" class="easyui-textbox easyui-validatebox" autocomplete="false" type="email" prompt="Correo Electronico" data-options="validType:'email'" >
+                            </div>
+                            <div class="padding-top-bottom">
+                                <input id="txt_birthdate" class="easyui-datebox easyui-validatebox" type="text" prompt="Fecha de Nacimiento" data-options="formatter:formatDate,parser:parserDate">
+                            </div>
+                            <div class="padding-top-bottom">
+                                <input id="txt_password" class="easyui-passwordbox easyui-validatebox" type="password" prompt="Contraseña">
+                            </div>
+                            <div class="padding-top-bottom">
+                                <input id="txt_vpassword" class="easyui-passwordbox easyui-validatebox" type="password" prompt="Verificar Contraseña" validType="equals['#txt_password']">
+                            </div>
+                            <div class="padding-top-bottom">
+                                <input id="txt_weight" class="easyui-numberbox easyui-validatebox" type="text" prompt="Peso">
+                            </div>
+                        </form>
+                    </div>
+                </div>  
+            </div>
+        </div>
+                
+    <script src="assets/js/jquery-3.1.1.min.js"></script>
+    <script src="assets/js/jquery.easyui.min.js"></script>
+    <script src="assets/js/datagrid-filter.js"></script>
+    <script src="assets/js/script.js"></script>
+    </body>
+</html>
