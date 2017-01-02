@@ -107,6 +107,8 @@ function configColumnsDatagrid() {
 function getDataApiRestProduct(url) {
     $.ajax({
         url: url
+    }).fail(function() {
+        alert("Por favor revisar su conexion a Internet :(")
     }).done(function (data){
         validDataRepit(data)
     })
@@ -191,7 +193,6 @@ function eventOnChangeDatagridFilter(value, dg) {
 function initElement() {
     configElementsTextbox()
 }
-
 
 //Config components attr,valid
 function configElementsTextbox() {
@@ -281,22 +282,48 @@ $('#txt_weight').numberbox({
     decimalSeparator: ','
 })
 
-//Config datebox retriction date
+//Config datebox retriction date > 01/01/1999
 $('#txt_birthdate').datebox().datebox('calendar').calendar({
     validator: function(date) {
-        let dateRestrict = new Date(1999, 01, 01)
+        let dateRestrict = new Date(1999, 0, 1)
         return date > dateRestrict
     }
 })
 
+//Config txt birthdate formatter and parser
+$('#txt_birthdate').datebox({
+    formatter: function(date) {
+        return getFormatDate(date)
+    },
+    parser: function(s){
+        if (!s) 
+            return new Date()
+        return getParserDate(s)
+    }
+})
 
+//return new formmat date
+function getFormatDate(date) {
+    let y = date.getFullYear()
+    let m = date.getMonth()+1
+    let d = date.getDate()
+    return (d < 10 ? ('0' + d) : d) + '/' + (m < 10 ? ('0' + m) : m) + '/' + y
+}
 
+//return date valid parser
+function getParserDate(s) {
+    let ss = (s.split('/'))
+    let y = parseInt(ss[0],10)
+    let m = parseInt(ss[1],10)
+    let d = parseInt(ss[2],10)
+    if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+        return new Date(d,m-1,y)
+    } else {
+        return new Date()
+    }
+}
 
-
-
-
-
-
+//Add new rules for validatebox
 $.extend($.fn.validatebox.defaults.rules, {
     equals: {
         validator: function(value, param){
@@ -312,59 +339,10 @@ $.extend($.fn.validatebox.defaults.rules, {
     }
 })
 
+//Validacion de formato de fecha
 function validateFormatDate(date) {
-    let RegExPattern = /^\d{2}\/\d{2}\/\d{4}$/;
-    if ((date.match(RegExPattern)) && (date!='')) {
-        return true;
-    } else {
-        return false;
-    }
+    let RegExPattern = /^\d{2}\/\d{2}\/\d{4}$/
+    return ((date.match(RegExPattern)) && (date!=''))
 }
-
-
-
-function formatDate(date) {
-    let y = date.getFullYear()
-    let m = date.getMonth()+1
-    let d = date.getDate()
-    console.log("Fecha: " + date)
-    return d+'/'+m+'/'+y
-}
-
-function parserDate(s){
-    if (!s) return new Date();
-    var ss = (s.split('/'));
-    var y = parseInt(ss[0],10);
-    var m = parseInt(ss[1],10);
-    var d = parseInt(ss[2],10);
-    console.log("Parser: " + s)
-    if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
-        return new Date(y,m-1,d);
-    } else {
-        return new Date();
-    }
-}
-
-$('#txt_birthdate').datebox({
-    formatter: function(date) {
-        let y = date.getFullYear()
-        let m = date.getMonth()+1
-        let d = date.getDate()
-        return (d<10?('0'+d):d)+'/'+(m<10?('0'+m):m)+'/'+y
-    },
-    parser: function(s){
-        if (!s) 
-            return new Date()
-        let ss = (s.split('/'))
-        let y = parseInt(ss[0],10)
-        let m = parseInt(ss[1],10)
-        let d = parseInt(ss[2],10)
-        if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
-            return new Date(d,m-1,y);
-        } else {
-            return new Date();
-        }
-    }
-})
 
 
